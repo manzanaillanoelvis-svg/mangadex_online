@@ -11,7 +11,7 @@ class AppTheme {
         brightness: Brightness.dark,
         primary: accent,
       ),
-      cardTheme: CardTheme(
+      cardTheme: const CardThemeData(),
         color: const Color(0xFF14141A),
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
