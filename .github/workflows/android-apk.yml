@@ -22,16 +22,22 @@ jobs:
         with:
           channel: stable
 
-      - name: Flutter pub get
-        working-directory: mangadex_online_starter_v3
+      - name: Flutter doctor
+        run: flutter doctor -v
+
+      # IMPORTANTE: crea plataformas nativas si no existen (android/)
+      - name: Ensure Android platform exists
+        run: flutter create . --platforms=android
+
+      - name: Pub get
         run: flutter pub get
 
       - name: Build release APK
-        working-directory: mangadex_online_starter_v3
         run: flutter build apk --release
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: mangadex_online_starter_v3/build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+
