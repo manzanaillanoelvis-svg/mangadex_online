@@ -44,7 +44,11 @@ jobs:
 
       - name: Accept Android SDK licenses
         shell: bash
-        run: yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses
+        run: |
+          set +e
+          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses || true
+          echo "✅ Licencias aceptadas (ignorando broken pipe)"
+
 
       - name: Pub get
         working-directory: mangadex_online_starter_v3
