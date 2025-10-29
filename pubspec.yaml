@@ -1,25 +1,13 @@
-name: mangadex_online_starter
-description: Starter Flutter manga app with gold default accent, neon toggle, vertical reader, and onboarding.
+name: mangadex_online
+description: Demo con buscador multi-fuente (mock), guardado de fichas y biblioteca.
 publish_to: "none"
-version: 1.0.1+1
 
 environment:
-  sdk: ">=3.4.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.8
-  provider: ^6.1.2
-  shared_preferences: ^2.2.3
-  cached_network_image: ^3.3.1
-  http: ^1.2.2
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
 flutter:
   uses-material-design: true
-  assets:
-    - assets/images/
