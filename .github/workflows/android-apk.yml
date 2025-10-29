@@ -1,12 +1,13 @@
-name: Build Android APK (v3 folder)
+name: Build Android APK
 
 on:
   workflow_dispatch:
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
 
     steps:
       - name: Checkout
@@ -16,7 +17,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           distribution: temurin
-          java-version: '17'
+          java-version: "17"
 
       - name: Set up Flutter (stable)
         uses: subosito/flutter-action@v2
@@ -24,52 +25,31 @@ jobs:
           channel: stable
           cache: true
 
-      - name: Cache Gradle
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - name: Flutter doctor
         run: flutter doctor -v
 
-      # 👇 trabaja DENTRO de tu app real
-      - name: Ensure Android platform
-        working-directory: mangadex_online_starter_v3
-        run: flutter create . --platforms=android
-
-      - name: Accept Android SDK licenses
-        shell: bash
-        run: |
-          set +e
-          yes | "${ANDROID_HOME}/cmdline-tools/latest/bin/sdkmanager" --licenses || true
-          echo "✅ Licencias aceptadas (ignorando broken pipe)"
-
-
       - name: Pub get
-        working-directory: mangadex_online_starter_v3
         run: flutter pub get
 
+      # Opcional: compilar un debug rápido para detectar errores de compilación
       - name: Build DEBUG apk (rápido)
-        working-directory: mangadex_online_starter_v3
-        run: flutter build apk --debug --no-tree-shake-icons
+        run: flutter build apk --debug
 
       - name: Upload DEBUG
         uses: actions/upload-artifact@v4
         with:
           name: app-debug
-          path: mangadex_online_starter_v3/build/app/outputs/flutter-apk/app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
+          if-no-files-found: error
 
-      - name: Build RELEASE apk
-        working-directory: mangadex_online_starter_v3
-        run: flutter build apk --release --no-shrink
+      # Release sin firma (para pruebas; Android pedirá "instalar de orígenes desconocidos")
+      - name: Build RELEASE apk (unsigned)
+        run: flutter build apk --release
 
       - name: Upload RELEASE
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: mangadex_online_starter_v3/build/app/outputs/flutter-apk/app-release.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
+          if-no-files-found: error
+
