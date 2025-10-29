@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
+  /// Tema oscuro (dorado por defecto; neón alternativo)
   static ThemeData dark({bool neon = false}) {
-    final accent = neon ? const Color(0xFF00F0FF) : const Color(0xFFF5C044);
+    final seed = neon ? const Color(0xFF00FFFF) : const Color(0xFFFFC107);
+
     return ThemeData(
       brightness: Brightness.dark,
-      scaffoldBackgroundColor: const Color(0xFF0B0B0F),
       colorScheme: ColorScheme.fromSeed(
-        seedColor: accent,
+        seedColor: seed,
         brightness: Brightness.dark,
-        primary: accent,
       ),
-      cardTheme: const CardThemeData(),
-        color: const Color(0xFF14141A),
-        elevation: 6,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-      ),
+      scaffoldBackgroundColor: Colors.black,
       appBarTheme: const AppBarTheme(
-        backgroundColor: Color(0xFF0B0B0F),
-        elevation: 0,
+        backgroundColor: Colors.black,
+        foregroundColor: Colors.white,
         centerTitle: true,
       ),
-      textTheme: Typography.whiteMountainView.apply(
-        displayColor: Colors.grey.shade200,
-        bodyColor: Colors.grey.shade300,
+      cardTheme: const CardThemeData(
+        elevation: 2,
+        margin: EdgeInsets.all(8),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+        ),
       ),
       useMaterial3: true,
     );
   }
 }
+
