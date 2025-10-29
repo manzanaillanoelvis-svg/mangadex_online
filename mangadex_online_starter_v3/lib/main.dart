@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'core/theme/app_theme.dart';
+import 'core/api/search_api.dart';
+const String kApiBaseUrl = 'https://mangadex-scraper-api.onrender.com';
+
 
 void main() => runApp(const AppRoot());
 
